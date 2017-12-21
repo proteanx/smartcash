@@ -11,6 +11,7 @@
 #include "../util.h"
 
 class CSporkMessage;
+class CSporkManager;
 
 /*
     Don't ever reuse these IDs for other sporks
@@ -40,6 +41,7 @@ static const int64_t SPORK_13_OLD_SUPERBLOCK_FLAG_DEFAULT               = 407090
 static const int64_t SPORK_14_REQUIRE_SENTINEL_FLAG_DEFAULT             = 4070908800ULL;// OFF
 
 extern std::map<uint256, CSporkMessage> mapSporks;
+extern CSporkManager sporkManager;
 
 //
 // Spork classes
@@ -116,7 +118,5 @@ public:
 
     bool SetPrivKey(std::string strPrivKey);
 };
-
-extern CSporkManager sporkManager;
 
 #endif

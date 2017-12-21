@@ -40,12 +40,11 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     uint32_t              PastBlocksMax       = PastSecondsMax / BlocksTargetSpacing; // 785 blocks
 
     bool fTestNet = Params().NetworkIDString() == CBaseChainParams::TESTNET;
-    if(fTestNet)
-    {
-        if((pindexLast->nTime - 1499790000) / 55 > (unsigned)pindexLast->nHeight)
-        {
-            return bnProofOfWorkLimit.GetCompact();
-        }
+    if(fTestNet){
+//       if((pindexLast->nTime - 1499790000) / 55 > (unsigned)pindexLast->nHeight)
+	   if(pindexLast->nHeight < 274998){
+          return bnProofOfWorkLimit.GetCompact();
+       }
     }
 
     if ((pindexLast->nHeight+1) % nInterval != 0) // Retarget every nInterval blocks
@@ -131,10 +130,14 @@ unsigned int BorisRidiculouslyNamedDifficultyFunction(const CBlockIndex* pindexL
     CBigNum bnNew(bnPastTargetAverage);
     if (nActualSeconds != 0 && nTargetSeconds != 0) 
     {
-        
+        bool fTestNet = (Params().NetworkIDString() == CBaseChainParams::TESTNET);
         if ( nActualSeconds > 3 * nTargetSeconds ) { nActualSeconds = 3 * nTargetSeconds; } // Maximal difficulty decrease of /3 from constrained past average      
-        if ( nActualSeconds < nTargetSeconds / 3 ) { nActualSeconds = nTargetSeconds / 3; } // Maximal difficulty increase of x3 from constrained past average
-        
+            if(fTestNet){
+              if ( nActualSeconds < nTargetSeconds / 10 ) { nActualSeconds = nTargetSeconds / 1.01; } // Maximal difficulty increase of x3 from constrained past average
+            }
+            if(!fTestNet){
+              if ( nActualSeconds < nTargetSeconds / 3 ) { nActualSeconds = nTargetSeconds / 3; } // Maximal difficulty increase of x3
+            }    
         bnNew *= nActualSeconds;
         bnNew /= nTargetSeconds;
     }
