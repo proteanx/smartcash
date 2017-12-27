@@ -20,7 +20,7 @@
 #include "txmempool.h"
 #include "util.h"
 #ifdef ENABLE_WALLET
-#include "smartnode-sync.h"
+#include "smartnodesync.h"
 #endif
 #include "utilstrencodings.h"
 #include "validationinterface.h"
