@@ -20,7 +20,7 @@
 #include "txmempool.h"
 #include "util.h"
 #ifdef ENABLE_WALLET
-#include "smartnodesync.h"
+#include "smartnode/smartnodesync.h"
 #endif
 #include "utilstrencodings.h"
 #include "validationinterface.h"
@@ -396,7 +396,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
             "      \"script\" : \"xxxx\",            (string) payee scriptPubKey\n"
             "      \"amount\": n                   (numeric) required amount to pay\n"
             "},\n"
-            "  \"smartnode_payments_started\" :  true|false, (boolean) true, if znode payments started\n"
+            "  \"smartnode_payments_started\" :  true|false, (boolean) true, if smartnode payments started\n"
 //            "  \"masternode_payments_enforced\" : true|false, (boolean) true, if masternode payments are enforced\n"
             "}\n"
 
@@ -700,13 +700,13 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
     result.push_back(Pair("height", (int64_t)(pindexPrev->nHeight+1)));
 
     UniValue smartnodeObj(UniValue::VOBJ);
-    if(pblock->txoutZnode != CTxOut()) {
+    if(pblock->txoutSmartnode != CTxOut()) {
         CTxDestination address1;
-        ExtractDestination(pblock->txoutZnode.scriptPubKey, address1);
+        ExtractDestination(pblock->txoutSmartnode.scriptPubKey, address1);
         CBitcoinAddress address2(address1);
         smartnodeObj.push_back(Pair("payee", address2.ToString().c_str()));
-        smartnodeObj.push_back(Pair("script", HexStr(pblock->txoutZnode.scriptPubKey.begin(), pblock->txoutZnode.scriptPubKey.end())));
-        smartnodeObj.push_back(Pair("amount", pblock->txoutZnode.nValue));
+        smartnodeObj.push_back(Pair("script", HexStr(pblock->txoutSmartnode.scriptPubKey.begin(), pblock->txoutSmartnode.scriptPubKey.end())));
+        smartnodeObj.push_back(Pair("amount", pblock->txoutSmartnode.nValue));
     }
     result.push_back(Pair("smartnode", smartnodeObj));
     result.push_back(Pair("smartnode_payments_started", pindexPrev->nHeight + 1 > Params().GetConsensus().nSmartnodePaymentsStartBlock));
