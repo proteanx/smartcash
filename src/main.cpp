@@ -1371,11 +1371,11 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state, uint256 h
             }else if(!fTestNet && (GetAdjustedTime() <= nStartRewardTime)){
                 return state.DoS(100, error("CTransaction::CheckTransaction() : transaction is too early"));
             }else{
-                FOUNDER_1_SCRIPT = GetScriptForDestination(CBitcoinAddress("TBizCRSozKpCbheftmzs75fZnc7h6HocJ3").Get());
-                FOUNDER_2_SCRIPT = GetScriptForDestination(CBitcoinAddress("THc8faox1kKZ3aegLdU4cwCJwgehLHSe9M").Get());
-                FOUNDER_3_SCRIPT = GetScriptForDestination(CBitcoinAddress("TK7CPJ2BS2UxAc7KBbUYySCBczww97Qr7p").Get());
-                FOUNDER_4_SCRIPT = GetScriptForDestination(CBitcoinAddress("TUPAY3ziYY7znMLxRJJNuvfuFWS1snrjiM").Get());
-                FOUNDER_5_SCRIPT = GetScriptForDestination(CBitcoinAddress("TMtxkvmAMyL5siHX1n3zKAvAKnev8if8KA").Get());
+                FOUNDER_1_SCRIPT = GetScriptForDestination(CBitcoinAddress("TTpGqTr2PBeVx4vvNRJ9iTq4NwpTCbSSwy").Get());
+                FOUNDER_2_SCRIPT = GetScriptForDestination(CBitcoinAddress("THypUznpFaDHaE7PS6yAc4pHNjC2BnWzUv").Get());
+                FOUNDER_3_SCRIPT = GetScriptForDestination(CBitcoinAddress("TDJVZE5oCYYbJQyizU4FgB2KpnKVdebnxg").Get());
+                FOUNDER_4_SCRIPT = GetScriptForDestination(CBitcoinAddress("TSziXCdaBcPk3Dt94BbTH9BZDH18K6sWsc").Get());
+                FOUNDER_5_SCRIPT = GetScriptForDestination(CBitcoinAddress("TLn1PGAVccBBjF8JuhQmATCR8vxhmamJg8").Get());
             }
             if ((nHeight > 0) && (nHeight < 90000)) {
                 BOOST_FOREACH(const CTxOut &output, tx.vout) {
@@ -1429,7 +1429,6 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state, uint256 h
               BOOST_FOREACH(const CTxOut& output, tx.vout) {
                 int blockRotation = nHeight - 85 * (nHeight/85);
                 int64_t reward = (int64_t)(0.85 * (GetBlockValue(nHeight, 0, pindexBestHeader->nTime)));
-		int64_t smartnodePayment = reward / 8.5;
                 if (blockRotation >= 0 && blockRotation <= 7 && output.scriptPubKey == FOUNDER_1_SCRIPT && abs(output.nValue - reward) < 2 ) {                    
                     found_1 = true;
                 }
@@ -1444,8 +1443,9 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state, uint256 h
                 }
                 if (blockRotation >= 39 && blockRotation <= 84 && output.scriptPubKey == FOUNDER_5_SCRIPT && abs(output.nValue - reward) < 2 ) {
                     found_5 = true; 
-		        }
- 	            if (smartnodePayment != output.nValue) {
+		}
+	        int64_t smartnodePayment = (int64_t)(0.1 * (GetBlockValue(nHeight, 0, pindexBestHeader->nTime)));
+ 	        if (smartnodePayment != output.nValue) {
                     found_smartnode_payment = false;
                 } else {
                     total_payment_tx = total_payment_tx + 1;
