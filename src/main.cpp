@@ -5894,7 +5894,7 @@ void static ProcessGetData(CNode* pfrom, const Consensus::Params& consensusParam
 
                 if (!pushed && inv.type == MSG_SMARTNODE_PAYMENT_BLOCK) {
                     BlockMap::iterator mi = mapBlockIndex.find(inv.hash);
-                    LOCK(cs_mapZnodeBlocks);
+                    LOCK(cs_mapSmartnodeBlocks);
                     if (mi != mapBlockIndex.end() && mnpayments.mapSmartnodeBlocks.count(mi->second->nHeight)) {
                         BOOST_FOREACH(CSmartnodePayee& payee, mnpayments.mapSmartnodeBlocks[mi->second->nHeight].vecPayees) {
                             std::vector<uint256> vecVoteHashes = payee.GetVoteHashes();
