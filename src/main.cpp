@@ -34,7 +34,7 @@
 #include "smartnode/smartnodeman.h"
 #include "smartnode/smartnodepayments.h"
 #include "smartnode/smartnodesync.h"
-#include "smartnode/sporks.h"
+#include "smartnode/spork.h"
 #include "tinyformat.h"
 #include "txdb.h"
 #include "txmempool.h"
