@@ -138,7 +138,6 @@ BITCOIN_CORE_H = \
   smartnode/smartnodeman.h \
   smartnode/smartnodepayments.h \
   smartnode/smartnodesync.h \
-  smartnode/sporks.h \
   streams.h \
   support/allocators/secure.h \
   support/allocators/zeroafterfree.h \
