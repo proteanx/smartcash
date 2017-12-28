@@ -14,6 +14,7 @@
 #include "util.h"
 #include "utilstrencodings.h"
 #ifdef ENABLE_WALLET
+#include "smartnode/smartnodesync.h"
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h"
 #endif
