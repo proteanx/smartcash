@@ -63,10 +63,10 @@ bool IsBlockValueValid(const CBlock &block, int nBlockHeight, CAmount blockRewar
         // LogPrint("gobject", "IsBlockValueValid -- Block is not in budget cycle window, checking block value against block reward\n");
         //if (!isBlockRewardValueMet) {
       //      strErrorRet = strprintf("coinbase pays too much at height %d (actual=%d vs limit=%d), exceeded block reward, block is not in budget cycle window",
-                                    nBlockHeight, block.vtx[0].GetValueOut(), blockReward);
-        }
-        return isBlockRewardValueMet;
-    }
+                                    //nBlockHeight, block.vtx[0].GetValueOut(), blockReward);
+        //}
+        //return isBlockRewardValueMet;
+    //}
 
     // superblocks started
 
@@ -129,12 +129,15 @@ bool IsBlockValueValid(const CBlock &block, int nBlockHeight, CAmount blockRewar
 }
 
 bool IsBlockPayeeValid(const CTransaction &txNew, int nBlockHeight, CAmount blockReward) {
+
     // we only check smartnode payment /
     const Consensus::Params &consensusParams = Params().GetConsensus();
 
     if (nBlockHeight < consensusParams.nSmartnodePaymentsStartBlock) {
         //there is no budget data to use to check anything, let's just accept the longest chain
+
         if (fDebug) LogPrintf("IsBlockPayeeValid -- smartnodes haven't started\n");
+
         return true;
     }
     if (!smartnodeSync.IsSynced()) {
@@ -145,7 +148,7 @@ bool IsBlockPayeeValid(const CTransaction &txNew, int nBlockHeight, CAmount bloc
 
     //check for smartnode payee
     if (mnpayments.IsTransactionValid(txNew, nBlockHeight)) {
-        LogPrint("mnpayments", "IsBlockPayeeValid -- Valid Smartnode payment at height %d: %s", nBlockHeight, txNew.ToString());
+        LogPrint("mnpayments", "IsBlockPayeeValid -- Valid SmartNode payment at height %d: %s", nBlockHeight, txNew.ToString());
         return true;
     } else {
         if(sporkManager.IsSporkActive(SPORK_8_SMARTNODE_PAYMENT_ENFORCEMENT)){
@@ -213,6 +216,7 @@ bool IsBlockPayeeValid(const CTransaction &txNew, int nBlockHeight, CAmount bloc
 
    // LogPrintf("IsBlockPayeeValid -- WARNING: Smartnode payment enforcement is disabled, accepting any payee\n");
    // return true;
+
 }
 
 void FillBlockPayments(CMutableTransaction &txNew, int nBlockHeight, CAmount smartnodePayment, CTxOut &txoutSmartnodeRet, std::vector <CTxOut> &voutSuperblockRet) {

@@ -261,6 +261,8 @@ extern const char *DSSTATUSUPDATE;
 extern const char *DSSIGNFINALTX; 
 extern const char *DSCOMPLETE; 
 extern const char *DSFINALTX; 
+extern const char *DSTX;
+extern const char *TXLOCKREQUEST;
 extern const char *TXLOCKVOTE;
 };
 
@@ -352,7 +354,9 @@ enum GetDataMsg
     MSG_SMARTNODE_QUORUM, // not implemented 
     MSG_SMARTNODE_ANNOUNCE, 
     MSG_SMARTNODE_PING, 
-    MSG_SMARTNODE_VERIFY, 
+    MSG_SMARTNODE_VERIFY,
+    MSG_TXLOCK_REQUEST,
+    MSG_TXLOCK_VOTE,
     MSG_DSTX, 
     DSQUEUE, 
 };
@@ -376,7 +380,7 @@ public:
 
     friend bool operator<(const CInv& a, const CInv& b);
 
-    std::string GetCommand() const;
+    const char* GetCommand() const;
     std::string ToString() const;
 
     // TODO: make private (improves encapsulation)
