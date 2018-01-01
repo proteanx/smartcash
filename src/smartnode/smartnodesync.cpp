@@ -260,6 +260,12 @@ void CSmartnodeSync::ProcessTick() {
     int nMnCount = mnodeman.CountSmartnodes();
 
     if (fDebug) LogPrintf("CSmartnodeSync::ProcessTick -- nTick %d nMnCount %d\n", nTick, nMnCount);
+    
+    
+    // INITIAL SYNC SETUP / LOG REPORTING
+    double nSyncProgress = double(nRequestedSmartnodeAttempt + (nRequestedSmartnodeAssets - 1) * 8) / (8 * 4);
+    LogPrintf("CSmartnodeSync::ProcessTick -- nTick %d nRequestedSmartnodeAssets %d nRequestedSmartnodeAttempt %d nSyncProgress %f\n", nTick, nRequestedSmartnodeAssets, nRequestedSmartnodeAttempt, nSyncProgress);
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(nSyncProgress);
 
     // RESET SYNCING INCASE OF FAILURE
     {
@@ -286,11 +292,6 @@ void CSmartnodeSync::ProcessTick() {
             return;
         }
     }
-
-    // INITIAL SYNC SETUP / LOG REPORTING
-    double nSyncProgress = double(nRequestedSmartnodeAttempt + (nRequestedSmartnodeAssets - 1) * 8) / (8 * 4);
-    LogPrintf("CSmartnodeSync::ProcessTick -- nTick %d nRequestedSmartnodeAssets %d nRequestedSmartnodeAttempt %d nSyncProgress %f\n", nTick, nRequestedSmartnodeAssets, nRequestedSmartnodeAttempt, nSyncProgress);
-    uiInterface.NotifyAdditionalDataSyncProgressChanged(nSyncProgress);
 
 //    LogPrintf("sporks synced but blockchain is not, wait until we're almost at a recent block to continue\n");
     
